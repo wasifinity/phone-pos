@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Phone Cover POS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    img { width: 80px; height: 80px; object-fit: cover; }
+  </style>
+</head>
+<body>
+  <h2>POS System (With Image)</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Image</th>
+        <th>Model</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th>Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>C001</td>
+        <td><img src="https://link.to/ironman.jpg" alt="Ironman"></td>
+        <td>iPhone X</td>
+        <td>250</td>
+        <td><input type="number" id="qty-C001" value="1" min="1"></td>
+        <td><button onclick="placeOrder('C001')">Order</button></td>
+      </tr>
+      <tr>
+        <td>C002</td>
+        <td><img src="https://link.to/doraemon.jpg" alt="Doraemon"></td>
+        <td>A15</td>
+        <td>220</td>
+        <td><input type="number" id="qty-C002" value="1" min="1"></td>
+        <td><button onclick="placeOrder('C002')">Order</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    const webhookUrl = "https://script.google.com/macros/s/AKfycbyV75qFjBVfhOV8t08DhFvl5Th4YVR0svhSs4YjoAfNsW9mEXykZsw-9QHyHGJxrBlgUw/exec";
+
+    function placeOrder(code) {
+      const qty = document.getElementById(`qty-${code}`).value;
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code, qty: parseInt(qty) })
+      })
+      .then(res => res.text())
+      .then(data => alert(data))
+      .catch(err => alert("Error: " + err));
+    }
+  </script>
+</body>
+</html>
